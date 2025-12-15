@@ -42,27 +42,33 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(productDto.getDescription());
         product.setBrand(productDto.getBrand());
         product.setNewArrival(productDto.isNewArrival());
+        //product.setIsNewArrival(productDto.getIsNewArrival() != null ? productDto.getIsNewArrival() : false);
         product.setPrice(productDto.getPrice());
 
         Category category = categoryService.getCategory(productDto.getCategoryId());
-        if (null != category) {
-            product.setCategory(category);
-            UUID categoryTypeId = productDto.getCategoryTypeId();
-            CategoryType categoryType = category.getCategoryTypes().stream()
-                    .filter(t -> t.getId().equals(categoryTypeId))
-                    .findFirst().orElse(null);
-
-            product.setCategoryType(categoryType);
+        if (category == null) {
+            throw new IllegalArgumentException("Category with ID " + productDto.getCategoryId() + " not found");
         }
-        if(null != productDto.getVariants()){
+
+        product.setCategory(category);
+
+        UUID categoryTypeId = productDto.getCategoryTypeId();
+        CategoryType categoryType = category.getCategoryTypes().stream()
+                .filter(t -> t.getId().equals(categoryTypeId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("CategoryType with ID " + categoryTypeId + " not found"));
+
+        product.setCategoryType(categoryType);
+
+        if (productDto.getVariants() != null) {
             product.setProductVariants(mapToProductVariant(productDto.getVariants(), product));
         }
 
-        if (null != productDto.getProductResources()){
+        if (productDto.getProductResources() != null) {
             product.setResources(mapToProductResources(productDto.getProductResources(), product));
         }
 
-        return productRepository.save(product);
+        return product;  // UKLONI productRepository.save() odavde!
     }
 
     private List<Resources> mapToProductResources(List<ProductResourceDto> productResources, Product product) {

@@ -1,4 +1,4 @@
-/*package com.shopway.shopway.errorhandler;
+package com.shopway.shopway.errorhandler;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,4 +16,3 @@ public class GlobalExceptionHandler {
     }
 }
 
-*/

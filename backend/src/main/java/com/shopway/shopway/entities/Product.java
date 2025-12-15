@@ -40,7 +40,6 @@ public class Product {
     @Column
     private Float rating;
 
-
     @Column(nullable = false)
     private boolean isNewArrival;
 
