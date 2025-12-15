@@ -4,6 +4,7 @@ package com.shopway.shopway.controllers;
 import com.shopway.shopway.dto.ProductDto;
 import com.shopway.shopway.entities.Product;
 import com.shopway.shopway.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,8 @@ public class ProductController {
 
     private final ProductService productService;
 
+
+    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
@@ -29,8 +32,8 @@ public class ProductController {
     //Pravljenje produkta (kreiranje)
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody ProductDto productDto){
-        Product product1 = productService.addProduct(productDto);
-        return null;
+        Product product = productService.createProduct(productDto);
+        return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
 

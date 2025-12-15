@@ -21,6 +21,6 @@ public class ProductResourceDto {
 
     private String type;
 
-    private boolean isPrimary;
+    private Boolean isPrimary;
 
 }
