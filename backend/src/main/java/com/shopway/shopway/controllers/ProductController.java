@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/products")
@@ -24,8 +25,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> productList = productService.getAllProducts();
+    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam (required = false, name = "categoryId") UUID categoryId, @RequestParam (required = false) UUID typeId) {
+        List<ProductDto> productList = productService.getAllProducts(categoryId, typeId);
         return new ResponseEntity<>(productList, HttpStatus.OK);
     };
 
@@ -35,6 +36,13 @@ public class ProductController {
         Product product = productService.createProduct(productDto);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
+
+//    @PostMapping
+//    public ResponseEntity<Product> createProduct(@RequestBody ProductDto productDto){
+//        Product product = productService.createProduct(productDto);
+//        return new ResponseEntity<>(product, HttpStatus.CREATED);
+//    }
+
 
 
 }
