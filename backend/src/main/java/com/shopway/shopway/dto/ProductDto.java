@@ -24,6 +24,7 @@ public class ProductDto {
     private boolean isNewArrival;
     private UUID categoryId;
     private String thumbnail;
+    private String slug;
     private UUID categoryTypeId;
     private String categoryName;
     private String categoryTypeName;

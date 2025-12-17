@@ -2,6 +2,7 @@ package com.shopway.shopway.services;
 
 import com.shopway.shopway.dto.ProductDto;
 import com.shopway.shopway.entities.*;
+import com.shopway.shopway.exceptions.ResourceNotFoundException;
 import com.shopway.shopway.mapper.ProductMapper;
 import com.shopway.shopway.repositories.ProductRepository;
 import com.shopway.shopway.specification.ProductSpecification;
@@ -34,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> getAllProducts(UUID categoryId, UUID typeId) {
 
-        Specification<Product> productSpecification = Specification.where((Specification<Product>) null);
+        Specification<Product> productSpecification = (root, query, cb) -> cb.conjunction();
 
         if (null != categoryId) {
             productSpecification = productSpecification.and(ProductSpecification.hasCategoryId(categoryId));
@@ -46,7 +47,38 @@ public class ProductServiceImpl implements ProductService {
 
         List<Product> products = productRepository.findAll(productSpecification);
         return productMapper.getProductDtos(products);
+    }
 
+    @Override
+    public ProductDto getProductBySlug(String slug) {
+        Product product = productRepository.findBySlug(slug);
+        if (null == product){
+            throw new ResourceNotFoundException("Product not found");
+        }
+        ProductDto productDto = productMapper.mapProductToDto(product);
+        productDto.setCategoryId(product.getCategory().getId());
+        productDto.setCategoryTypeId(product.getCategoryType().getId());
+        productDto.setVariants(productMapper.mapProductVariantListToDto(product.getProductVariants()));
+        productDto.setProductResources(productMapper.mapProductResourcesListDto(product.getResources()));
+        return productDto;
+    }
+
+    @Override
+    public ProductDto getProductById(UUID id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        ProductDto productDto = productMapper.mapProductToDto(product);
+        productDto.setCategoryId(product.getCategory().getId());
+        productDto.setCategoryTypeId(product.getCategoryType().getId());
+        productDto.setVariants(productMapper.mapProductVariantListToDto(product.getProductVariants()));
+        productDto.setProductResources(productMapper.mapProductResourcesListDto(product.getResources()));
+        return productDto;
+    }
+
+    @Override
+    public Product updateProduct(ProductDto productDto) {
+        Product product = productRepository.findById(productDto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        return productRepository.save(productMapper.mapToProductEntity(productDto));
     }
 }
 

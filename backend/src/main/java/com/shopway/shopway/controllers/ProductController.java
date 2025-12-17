@@ -1,19 +1,23 @@
 package com.shopway.shopway.controllers;
 
 
+import ch.qos.logback.core.util.StringUtil;
 import com.shopway.shopway.dto.ProductDto;
 import com.shopway.shopway.entities.Product;
 import com.shopway.shopway.services.ProductService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/products")
+@CrossOrigin
 public class ProductController {
 
     private final ProductService productService;
@@ -25,10 +29,23 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam (required = false, name = "categoryId") UUID categoryId, @RequestParam (required = false) UUID typeId) {
-        List<ProductDto> productList = productService.getAllProducts(categoryId, typeId);
+    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam (required = false, name = "categoryId") UUID categoryId, @RequestParam (required = false) UUID typeId, @RequestParam (required = false) String slug) {
+        List<ProductDto> productList = new ArrayList<>();
+       if (StringUtils.isNotBlank(slug)){
+           ProductDto productDto = productService.getProductBySlug(slug);
+           productList.add(productDto);
+       }else{
+           productList = productService.getAllProducts(categoryId, typeId);
+       }
+
         return new ResponseEntity<>(productList, HttpStatus.OK);
     };
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDto> getProductById(@PathVariable UUID id) {
+        ProductDto productDto = productService.getProductById(id);
+        return new ResponseEntity<>(productDto, HttpStatus.OK);
+    }
 
     //Pravljenje produkta (kreiranje)
     @PostMapping
@@ -37,11 +54,12 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
-//    @PostMapping
-//    public ResponseEntity<Product> createProduct(@RequestBody ProductDto productDto){
-//        Product product = productService.createProduct(productDto);
-//        return new ResponseEntity<>(product, HttpStatus.CREATED);
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@RequestBody ProductDto productDto, @PathVariable UUID id){
+        Product product = productService.updateProduct(productDto);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
 
 
 
