@@ -1,11 +1,9 @@
 package com.shopway.shopway.auth.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.shopway.shopway.entities.Address;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,6 +52,10 @@ public class User implements UserDetails {
     @JoinTable(name = "AUTH_USER_AUTHORITY", joinColumns = @JoinColumn(referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(referencedColumnName = "id"))
     private List<Authority> authorities;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Address> addressesList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
