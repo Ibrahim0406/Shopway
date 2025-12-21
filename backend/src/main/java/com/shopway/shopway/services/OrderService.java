@@ -2,6 +2,8 @@ package com.shopway.shopway.services;
 
 import com.shopway.shopway.auth.dto.OrderResponse;
 import com.shopway.shopway.auth.entities.User;
+import com.shopway.shopway.dto.OrderDetails;
+import com.shopway.shopway.dto.OrderItemDetails;
 import com.shopway.shopway.dto.OrderRequest;
 import com.shopway.shopway.entities.*;
 import com.shopway.shopway.repositories.OrderRepository;
@@ -109,4 +111,48 @@ public class OrderService {
             throw new IllegalArgumentException("Payment not found or not succeeded");
         }
     }
+
+    public List<OrderDetails> getOrdersByUser(String name) {
+        User user = (User) userDetailsService.loadUserByUsername(name);
+        List<Order> orders = orderRepository.findByUser(user);
+        return orders.stream().map(order -> {
+            return OrderDetails.builder()
+                    .id(order.getId())
+                    .orderDate(order.getOrderDate())
+                    .orderStatus(order.getOrderStatus())
+                    .shipmentNumber(order.getShipmentTrackingNumber())
+                    .address(order.getAddress())
+                    .totalAmount(order.getTotalAmount())
+                    .orderItemList(getItemDetails(order.getOrderItemList()))
+                    .expectedDeliveryDate(order.getExcpectedDeliveryDate())
+                    .build();
+        }).toList();
+    }
+
+    private List<OrderItemDetails> getItemDetails(List<OrderItem> orderItemList) {
+        return orderItemList.stream().map(orderItem -> {
+            return OrderItemDetails.builder()
+                    .id(orderItem.getId())
+                    .itemPrice(orderItem.getItemPrice())
+                    .product(orderItem.getProduct())
+                    .productVariantId(orderItem.getProductVariantId())
+                    .quantity(orderItem.getQuantity())
+                    .build();
+        }).toList();
+
+    }
+    public void cancelOrder(UUID id, Principal principal) {
+        User user = (User) userDetailsService.loadUserByUsername(principal.getName());
+        Order order = orderRepository.findById(id).get();
+        if(null != order && order.getUser().getId().equals(user.getId())){
+            order.setOrderStatus(OrderStatus.CANCELLED);
+            //logic to refund amount
+            orderRepository.save(order);
+        }
+        else{
+            new RuntimeException("Invalid request");
+        }
+
+    }
+
 }

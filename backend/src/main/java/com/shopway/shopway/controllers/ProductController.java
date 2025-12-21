@@ -5,6 +5,7 @@ import ch.qos.logback.core.util.StringUtil;
 import com.shopway.shopway.dto.ProductDto;
 import com.shopway.shopway.entities.Product;
 import com.shopway.shopway.services.ProductService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam (required = false, name = "categoryId") UUID categoryId, @RequestParam (required = false) UUID typeId, @RequestParam (required = false) String slug) {
+    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam (required = false, name = "categoryId", value = "categoryId") UUID categoryId, @RequestParam (required = false, name = "typeId", value = "typeId") UUID typeId, @RequestParam (required = false) String slug, HttpServletResponse response) {
         List<ProductDto> productList = new ArrayList<>();
        if (StringUtils.isNotBlank(slug)){
            ProductDto productDto = productService.getProductBySlug(slug);
@@ -37,7 +38,7 @@ public class ProductController {
        }else{
            productList = productService.getAllProducts(categoryId, typeId);
        }
-
+        response.setHeader("Content-Range", String.valueOf(productList.size()));
         return new ResponseEntity<>(productList, HttpStatus.OK);
     };
 
