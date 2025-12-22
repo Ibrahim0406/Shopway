@@ -1,0 +1,54 @@
+{
+  "categories": [
+    {
+      "title": "Categories For Women",
+      "data": [
+        {
+          "title":"Hoodies & Sweetshirt",
+          "description":"Explore Now!",
+          "image":"/images/category-women-hoodies.jpg"
+        },
+        {
+          "title":"Coats & Jackets",
+          "description":"Explore Now!",
+          "image":"/images/category-women-coats.jpg"
+        },
+        {
+          "title":"Tees & T-shirts",
+          "description":"Explore Now!",
+          "image":"/images/category-women-tshirts.jpg"
+        },
+        {
+          "title":"Shorts",
+          "description":"Explore Now!",
+          "image":"/images/category-women-shorts.jpg"
+        }
+      ]
+    },
+    {
+      "title": "Categories For Men",
+      "data": [
+        {
+          "title":"Hoodies & Sweetshirt",
+          "description":"Explore Now!",
+          "image":"/images/category-men-hoodies.jpg"
+        },
+        {
+          "title":"Jeans",
+          "description":"Explore Now!",
+          "image":"/images/category-men-jeans.jpg"
+        },
+        {
+          "title":"T-shirts",
+          "description":"Explore Now!",
+          "image":"/images/category-men-tshirts.jpg"
+        },
+        {
+          "title":"Shirts",
+          "description":"Explore Now!",
+          "image":"/images/category-men-shirts.jpg"
+        }
+      ]
+    }
+  ]
+}
