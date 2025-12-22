@@ -16,13 +16,18 @@ import java.util.Collections;
 @SpringBootApplication
 public class ShopwayApplication {
 
+	@Value("${stripe.secret}")
+	private String stripeSecret;
 
 
 	public static void main(String[] args) {
 		SpringApplication.run(ShopwayApplication.class, args);
 	}
 
-
+	@PostConstruct
+	public void init(){
+		Stripe.apiKey = this.stripeSecret;
+	}
 
 	@Bean
 	public CorsFilter corsFilter() {
