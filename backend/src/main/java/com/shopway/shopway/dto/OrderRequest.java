@@ -1,7 +1,7 @@
 package com.shopway.shopway.dto;
 
 
-import com.shopway.shopway.entities.OrderItem;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

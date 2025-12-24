@@ -2,7 +2,7 @@ package com.shopway.shopway.dto;
 
 
 import com.shopway.shopway.entities.Address;
-import com.shopway.shopway.entities.OrderItem;
+
 import com.shopway.shopway.entities.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

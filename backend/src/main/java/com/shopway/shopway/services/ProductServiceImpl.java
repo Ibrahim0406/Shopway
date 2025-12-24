@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.sql.BatchUpdateException;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.UUID;
 

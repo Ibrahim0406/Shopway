@@ -3,9 +3,7 @@ package com.shopway.shopway.controllers;
 
 import com.shopway.shopway.auth.dto.OrderResponse;
 import com.shopway.shopway.dto.OrderDetails;
-import com.shopway.shopway.dto.OrderItemDetails;
 import com.shopway.shopway.dto.OrderRequest;
-import com.shopway.shopway.entities.Order;
 import com.shopway.shopway.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

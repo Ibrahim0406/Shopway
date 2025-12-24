@@ -1,7 +1,7 @@
 package com.shopway.shopway.controllers;
 
 
-import ch.qos.logback.core.util.StringUtil;
+
 import com.shopway.shopway.dto.ProductDto;
 import com.shopway.shopway.entities.Product;
 import com.shopway.shopway.services.ProductService;
@@ -40,7 +40,7 @@ public class ProductController {
        }
         response.setHeader("Content-Range", String.valueOf(productList.size()));
         return new ResponseEntity<>(productList, HttpStatus.OK);
-    };
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable UUID id) {
