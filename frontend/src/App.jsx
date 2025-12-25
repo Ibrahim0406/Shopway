@@ -11,11 +11,9 @@ function App() {
 
   return (
     <div className={"App"}>
-        <Banner />
-        <Navigation />
         <HeroSection />
         <NewArrivals />
-        {content?.categories && content?.categories?.map((item, index)=><Category key={item?.title+index} {...item}></Category>)}
+        {content?.pages.shop.sections && content?.pages?.shop.sections.map((item, index)=><Category key={item?.title+index} {...item}></Category>)}
         <Footer />
     </div>
   )

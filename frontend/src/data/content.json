@@ -1,54 +1,278 @@
 {
+  "pages": {
+    "shop": {
+      "sections": [
+          {
+            "title": "Categories For Women",
+            "data": [
+              {
+                "title":"Hoodies & Sweetshirt",
+                "description":"Explore Now!",
+                "image":"/images/category-women-hoodies.jpg"
+              },
+              {
+                "title":"Coats & Jackets",
+                "description":"Explore Now!",
+                "image":"/images/category-women-coats.jpg"
+              },
+              {
+                "title":"Tees & T-shirts",
+                "description":"Explore Now!",
+                "image":"/images/category-women-tshirts.jpg"
+              },
+              {
+                "title":"Shorts",
+                "description":"Explore Now!",
+                "image":"/images/category-women-shorts.jpg"
+              }
+            ]
+          },
+          {
+            "title": "Categories For Men",
+            "data": [
+              {
+                "title":"Hoodies & Sweetshirt",
+                "description":"Explore Now!",
+                "image":"/images/category-men-hoodies.jpg"
+              },
+              {
+                "title":"Jeans",
+                "description":"Explore Now!",
+                "image":"/images/category-men-jeans.jpg"
+              },
+              {
+                "title":"T-shirts",
+                "description":"Explore Now!",
+                "image":"/images/category-men-tshirts.jpg"
+              },
+              {
+                "title":"Shirts",
+                "description":"Explore Now!",
+                "image":"/images/category-men-shirts.jpg"
+              }
+            ]
+          }
+        ]
+    }
+  },
   "categories": [
     {
-      "title": "Categories For Women",
-      "data": [
+      "id": 1,
+      "name": "Men",
+      "code": "MEN",
+      "path":"/men",
+      "description":"Men's Clothing",
+      "types": [
         {
-          "title":"Hoodies & Sweetshirt",
-          "description":"Explore Now!",
-          "image":"/images/category-women-hoodies.jpg"
+          "id": 1,
+          "name": "Jeans",
+          "description": "Men's jeans"
         },
         {
-          "title":"Coats & Jackets",
-          "description":"Explore Now!",
-          "image":"/images/category-women-coats.jpg"
+          "id": 2,
+          "name": "Shirts",
+          "description": "Men's shirts"
         },
         {
-          "title":"Tees & T-shirts",
-          "description":"Explore Now!",
-          "image":"/images/category-women-tshirts.jpg"
+          "id": 3,
+          "name": "Shorts",
+          "description": "Men's shorts"
         },
         {
-          "title":"Shorts",
-          "description":"Explore Now!",
-          "image":"/images/category-women-shorts.jpg"
+          "id": 4,
+          "name": "T-shirts",
+          "description": "Men's t-shirts"
+        },
+        {
+          "id": 14,
+          "name": "Hoodie's",
+          "description": "Men's Hoodie"
         }
-      ]
+      ],
+      "meta_data":{
+        "colors":["Black", "White", "Purple", "Gray", "Blue","Red","Orange","Navy","Grey","Yellow","Pink","Green"],
+        "sizes":["S","M","L","XL","XXL"]
+      }
     },
     {
-      "title": "Categories For Men",
-      "data": [
+      "id": 2,
+      "name": "Women",
+      "code": "WOMEN",
+      "path":"/women",
+      "description":"Women's Clothing",
+      "types": [
         {
-          "title":"Hoodies & Sweetshirt",
-          "description":"Explore Now!",
-          "image":"/images/category-men-hoodies.jpg"
+          "type_id": 5,
+          "code":"DRESSES",
+          "name": "Dresses"
         },
         {
-          "title":"Jeans",
-          "description":"Explore Now!",
-          "image":"/images/category-men-jeans.jpg"
+          "type_id": 6,
+          "code":"CROPTOP",
+          "name": "Crop Top"
         },
         {
-          "title":"T-shirts",
-          "description":"Explore Now!",
-          "image":"/images/category-men-tshirts.jpg"
+          "type_id": 7,
+          "code":"SHORTS",
+          "name": "Shorts"
         },
         {
-          "title":"Shirts",
-          "description":"Explore Now!",
-          "image":"/images/category-men-shirts.jpg"
+          "type_id": 8,
+          "code":"JEANS",
+          "name": "Jeans"
+        },
+        {
+          "type_id": 9,
+          "code":"TSHIRTS",
+          "name": "T-shirt"
+        },
+        {
+          "type_id": 10,
+          "code":"SWEATSHIRT",
+          "name": "Hoodie/Sweatshirt"
+        },
+        {
+          "type_id": 11,
+          "code":"TOPS",
+          "name": "Tops"
+        },
+        {
+          "type_id": 12,
+          "code":"BOXERS",
+          "name": "Boxers"
+        },
+        {
+          "type_id": 13,
+          "code":"KURTIS",
+          "name": "Kurtis"
         }
-      ]
+      ],
+      "meta_data":{
+        "colors":["Black", "White", "Purple", "Gray", "Blue","Red","Orange","Navy","Grey","Yellow","Pink","Green"],
+        "sizes":["S","M","L","XL","XXL"]
+      }
+    },
+    {
+      "id": 3,
+      "name": "Kids",
+      "code": "KIDS",
+      "path":"/kids",
+      "description":"Kids Clothing",
+      "types": [
+        {
+          "id": 15,
+          "name": "T-shirts",
+          "description": "Kids' t-shirts"
+        },
+        {
+          "id": 16,
+          "name": "Shorts",
+          "description": "Kids' shorts"
+        },
+        {
+          "id": 17,
+          "name": "Dresses",
+          "description": "Kids' dresses"
+        },
+        {
+          "id": 18,
+          "name": "Jeans",
+          "description": "Kids' jeans"
+        }
+      ],
+      "meta_data":{}
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "title": "Black Sweater",
+      "description": "A comfortable black sweater for women",
+      "category_id": 2,
+      "type_id": 10,
+      "brand": "Nike",
+      "price": 55.69,
+      "size": ["S", "L"],
+      "color": ["Black"],
+      "discount": 10,
+      "thumbnail": "/images/black_nike_sweater_1w.jpg",
+      "images": [],
+      "rating": 4.7
+    },
+    {
+      "id": 2,
+      "title": "Black Top",
+      "description": "A comfortable black top for women",
+      "category_id": 2,
+      "type_id": 11,
+      "brand": "Nike",
+      "price": 23.69,
+      "size": ["S","M","L"],
+      "color": ["Black"],
+      "discount": 15,
+      "thumbnail": "/images/black_nike_top_2w.jpg",
+      "images": [],
+      "rating": 4.7
+    },
+    {
+      "id": 3,
+      "title": "Green Blouse",
+      "description": "A comfortable green blouse for women",
+      "category_id": 2,
+      "type_id": 13,
+      "brand": "Setre",
+      "price": 44.99,
+      "size": ["S", "L", "XXL"],
+      "color": ["Green"],
+      "discount": 20,
+      "thumbnail": "/images/green_setre_kurti_3w.jpg",
+      "images": [],
+      "rating": 4.7
+    },
+    {
+      "id": 4,
+      "title": "Denim blue Jeans",
+      "description": "A comfortable jeans for men",
+      "category_id": 1,
+      "type_id": 1,
+      "brand": "Mustang",
+      "price": 33.99,
+      "size": ["S", "L", "XXL"],
+      "color": ["Blue"],
+      "discount": 15,
+      "thumbnail": "/images/blue_mustang_jeans_1m.jpg",
+      "images": [],
+      "rating": 4.7
+    },
+    {
+      "id": 5,
+      "title": "Gray Shirt",
+      "description": "A comfortable gray shirt for men",
+      "category_id": 1,
+      "type_id": 2,
+      "brand": "Lennberg",
+      "price": 66.99,
+      "size": ["S", "L", "XXL"],
+      "color": ["Gray"],
+      "discount": 20,
+      "thumbnail": "/images/gray_lennberg_shirt_2m.jpg",
+      "images": [],
+      "rating": 4.7
+    },
+    {
+      "id": 6,
+      "title": "Gray Hoodie",
+      "description": "A comfortable gray hoodie for men",
+      "category_id": 1,
+      "type_id": 14,
+      "brand": "Champion",
+      "price": 22.99,
+      "size": ["S", "L", "XXL"],
+      "color": ["Gray"],
+      "discount": 20,
+      "thumbnail": "/images/gray_champion_hoodie_3m.jpg",
+      "images": [],
+      "rating": 4.7
     }
   ]
 }
