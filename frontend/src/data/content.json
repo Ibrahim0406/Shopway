@@ -253,11 +253,11 @@
       "brand": "Lennberg",
       "price": 66.99,
       "size": ["S", "L", "XXL"],
-      "color": ["Gray"],
+      "color": ["Gray", "Black"],
       "discount": 20,
       "thumbnail": "/images/gray_lennberg_shirt_2m.jpg",
       "images": ["/images_images/gray_lennberg_shirt_2m_img1.jpg", "/images_images/gray_lennberg_shirt_2m_img2.jpg", "/images/gray_lennberg_shirt_2m.jpg"],
-      "rating": 4.7
+      "rating": 2.7
     },
     {
       "id": 6,
@@ -265,13 +265,28 @@
       "description": "A comfortable gray hoodie for men",
       "category_id": 1,
       "type_id": 14,
-      "brand": "Champion",
-      "price": 22.99,
-      "size": ["S", "L", "XXL"],
+      "brand": "Champions",
+      "price": 65.99,
+      "size": ["S","M", "L"],
       "color": ["Gray"],
       "discount": 20,
       "thumbnail": "/images/gray_champion_hoodie_3m.jpg",
       "images": ["/images_images/gray_champion_hoodie_3m_img1.jpg", "/images_images/gray_champion_hoodie_3m_img2.jpg","/images/gray_champion_hoodie_3m.jpg"],
+      "rating": 4.7
+    },
+    {
+      "id": 7,
+      "title": "Black Jeans",
+      "description": "A comfortable black jeans for men",
+      "category_id": 1,
+      "type_id": 1,
+      "brand": "Mustang",
+      "price": 55.99,
+      "size": ["S", "L", "XXL"],
+      "color": ["Black"],
+      "discount": 20,
+      "thumbnail": "/images/black_mustang_jeans_4m.jpg",
+      "images": ["/images_images/black_mustang_jeans_4m_img1.jpg", "/images_images/black_mustang_jeans_4m_img2.jpg","/images/black_mustang_jeans_4m.jpg"],
       "rating": 4.7
     }
   ]
