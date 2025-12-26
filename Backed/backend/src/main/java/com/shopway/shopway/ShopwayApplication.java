@@ -26,7 +26,12 @@ public class ShopwayApplication {
 
 	@PostConstruct
 	public void init(){
-		Stripe.apiKey = this.stripeSecret;
+		if (stripeSecret == null || stripeSecret.isEmpty()) {
+			System.err.println("❌ STRIPE_SECRET_KEY nije učitan!");
+		} else {
+			System.out.println("✅ Stripe API Key loaded: " + stripeSecret.substring(0, 7) + "...");
+			Stripe.apiKey = this.stripeSecret;
+		}
 	}
 
 	@Bean
