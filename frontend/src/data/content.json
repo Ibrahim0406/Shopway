@@ -196,7 +196,7 @@
       "color": ["Black"],
       "discount": 10,
       "thumbnail": "/images/black_nike_sweater_1w.jpg",
-      "images": [],
+      "images": ["/images_images/black_nike_sweater_1w_img1.jpg", "/images_images/black_nike_sweater_1w_img2.jpg", "/images/black_nike_sweater_1w.jpg"],
       "rating": 4.7
     },
     {
@@ -211,7 +211,7 @@
       "color": ["Black"],
       "discount": 15,
       "thumbnail": "/images/black_nike_top_2w.jpg",
-      "images": [],
+      "images": ["/images_images/black_nike_top_2w_img1.jpg", "/images_images/black_nike_sweater_2w_img2.jpg","/images/black_nike_top_2w.jpg"],
       "rating": 4.7
     },
     {
@@ -226,7 +226,7 @@
       "color": ["Green"],
       "discount": 20,
       "thumbnail": "/images/green_setre_kurti_3w.jpg",
-      "images": [],
+      "images": ["/images_images/green_setre_kurti_3w_img1.jpg", "/images_images/green_setre_kurti_3w_img2.jpg","/images/green_setre_kurti_3w.jpg"],
       "rating": 4.7
     },
     {
@@ -241,7 +241,7 @@
       "color": ["Blue"],
       "discount": 15,
       "thumbnail": "/images/blue_mustang_jeans_1m.jpg",
-      "images": [],
+      "images": ["/images_images/blue_mustang_jeans_1m_img1.jpg", "/images_images/blue_mustang_jeans_1m_img2.jpg", "/images/blue_mustang_jeans_1m.jpg"],
       "rating": 4.7
     },
     {
@@ -256,7 +256,7 @@
       "color": ["Gray"],
       "discount": 20,
       "thumbnail": "/images/gray_lennberg_shirt_2m.jpg",
-      "images": [],
+      "images": ["/images_images/gray_lennberg_shirt_2m_img1.jpg", "/images_images/gray_lennberg_shirt_2m_img2.jpg", "/images/gray_lennberg_shirt_2m.jpg"],
       "rating": 4.7
     },
     {
@@ -271,7 +271,7 @@
       "color": ["Gray"],
       "discount": 20,
       "thumbnail": "/images/gray_champion_hoodie_3m.jpg",
-      "images": [],
+      "images": ["/images_images/gray_champion_hoodie_3m_img1.jpg", "/images_images/gray_champion_hoodie_3m_img2.jpg","/images/gray_champion_hoodie_3m.jpg"],
       "rating": 4.7
     }
   ]
