@@ -6,9 +6,15 @@ import Card from "./components/Card/Card.jsx";
 import Category from "./components/sections/Categories/Category.jsx";
 import content from "../src/data/content.json"
 import Footer from "./components/Footer/Footer.jsx";
+import {useEffect} from "react";
+import {fetchCategories} from "./api/fetchCategories.js";
 
 function App() {
-
+    useEffect(() => {
+        fetchCategories().then(res => {
+            console.log("Categories", res);
+        }).catch(error => {})
+    }, []);
   return (
     <div className={"App"}>
         <HeroSection />
