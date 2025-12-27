@@ -33,7 +33,9 @@ public class WebSecurityConfig {
 
 
     private final String[] publicAPIs = {
-            "/api/auth/**"
+            "/api/auth/**",
+            "/oauth2/**",
+            "/login/oauth2/**"
     };
 
     @Bean
@@ -41,12 +43,12 @@ public class WebSecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                .requestMatchers(HttpMethod.GET,"/api/products", "/api/category").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/products/**", "/api/products", "/api/category/**", "/api/category").permitAll()
                         .requestMatchers("/oauth2/success").permitAll()
                 .anyRequest().authenticated())
                 .cors(Customizer.withDefaults())
                 //.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-               .oauth2Login((ouath2login) -> ouath2login.defaultSuccessUrl("/oauth2/success"))
+             //  .oauth2Login((ouath2login) -> ouath2login.defaultSuccessUrl("/oauth2/success"))
               //  .exceptionHandling((exception) -> exception.authenticationEntryPoint(new RESTAuthenticationEntryPoint()))
                 .addFilterBefore(new JWTAuthenticationFilter(jwtTokenHelper,userDetailsService), UsernamePasswordAuthenticationFilter.class);
 
