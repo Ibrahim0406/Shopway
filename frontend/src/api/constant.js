@@ -5,4 +5,4 @@ export const API_URLS = {
     GET_CATEGORY: (id) => `/api/category/${id}`,
 }
 
-export const API_BASE_URL = "http://localhost:8000";
+export const API_BASE_URL = "http://localhost:8080";
