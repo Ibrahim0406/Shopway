@@ -24,9 +24,9 @@ function ProductListPage({ categoryType }) {
         return content?.products.filter((product)=>product?.category_id===categoryContent?.id)
     }, [categoryContent])
 
-    const category = useMemo(()=>{
-        return categoryData?.find(element => element?.code === categoryType)
-    }, [categoryData])
+    const category = useMemo(() => {
+        return categoryData?.find(element => element?.code === categoryType);
+    }, [categoryData, categoryType]);
 
     useEffect(() => {
         if (!category?.id) return;
@@ -35,7 +35,7 @@ function ProductListPage({ categoryType }) {
 
         getAllProducts(category.id)
             .then(res => {
-                setProducts(res);
+                setProducts(res || []);
             })
             .catch(error => {
                 console.error(error);
@@ -45,6 +45,7 @@ function ProductListPage({ categoryType }) {
             });
 
     }, [category?.id, dispatch]);
+
 
     return (
         <div>
