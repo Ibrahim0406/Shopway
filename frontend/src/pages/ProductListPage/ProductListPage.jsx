@@ -35,9 +35,7 @@ function ProductListPage({ categoryType }) {
 
         getAllProducts(category.id)
             .then(res => {
-                setProducts(res);
                 setProducts(res || []);
-
             })
             .catch(error => {
                 console.error(error);
