@@ -35,11 +35,9 @@ function ProductListPage({ categoryType }) {
 
         getAllProducts(category.id)
             .then(res => {
-<<<<<<< HEAD
                 setProducts(res);
-=======
                 setProducts(res || []);
->>>>>>> 2d860e981f7b93b6c2761b3a4c908651cd05b42c
+
             })
             .catch(error => {
                 console.error(error);
