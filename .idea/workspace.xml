@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="701ec37f-1e7c-4749-883d-0496d86a65f9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ProductListPage/ProductListPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ProductListPage/ProductListPage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +42,7 @@
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;frontend&quot;,
     &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DotShop/Desktop/ShopwayWeb&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2025.2.5\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -72,7 +72,13 @@
       <workItem from="1766681945878" duration="17809000" />
       <workItem from="1766770979966" duration="77000" />
       <workItem from="1766782429111" duration="184000" />
-      <workItem from="1766830450441" duration="1587000" />
+      <workItem from="1766830450441" duration="2753000" />
+      <workItem from="1766833489321" duration="39000" />
+      <workItem from="1766834189066" duration="73000" />
+      <workItem from="1766859362101" duration="8126000" />
+      <workItem from="1766873380077" duration="728000" />
+      <workItem from="1766876093872" duration="3766000" />
+      <workItem from="1766880614033" duration="36000" />
     </task>
     <servers />
   </component>

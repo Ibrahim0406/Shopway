@@ -29,10 +29,21 @@ function ProductListPage({ categoryType }) {
     }, [categoryData])
 
     useEffect(() => {
+        if (!category?.id) return;
+
         dispatch(setLoading(true));
-        getAllProducts(category?.id).then(res => {
-            setProducts(res)
-        }).catch(error => {}).finally(()=>setLoading(false));
+
+        getAllProducts(category.id)
+            .then(res => {
+                setProducts(res);
+            })
+            .catch(error => {
+                console.error(error);
+            })
+            .finally(() => {
+                dispatch(setLoading(false));
+            });
+
     }, [category?.id, dispatch]);
 
     return (
