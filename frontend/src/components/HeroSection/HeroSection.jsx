@@ -1,5 +1,5 @@
 import React from 'react';
-import heroBackground from '../../assets/hero-background.jpg';
+import heroBackground from '../../assets/img/hero-background.jpg';
 
 function HeroSection() {
     return (

@@ -1,39 +1,55 @@
-import {createBrowserRouter} from "react-router-dom"
-import App from "./App.jsx";
-import ProductListPage from "./pages/ProductListPage/ProductListPage.jsx";
-import ShopApplicationWrapper from "./pages/ShopApplicationWrapper.jsx";
-import HomeLayout from "./pages/HomeLayout.jsx";
-import ProductDetails from "./pages/ProductDetailPage/ProductDetails.jsx";
-import {loadProductByID} from "./routes/products.js";
+import { createBrowserRouter } from "react-router-dom";
+import Shop from "./Shop";
+import ShopApplicationWrapper from "./pages/ShopApplicationWrapper";
+import ProductListPage from "./pages/ProductListPage/ProductListPage";
+import ProductDetails from "./pages/ProductDetailPage/ProductDetails";
+import { loadProductBySlug } from "./routes/products";
+import AuthenticationWrapper from "./pages/AuthenticationWrapper.jsx";
+import Login from "./pages/Login/Login.jsx";
+import Register from "./pages/Register/Register.jsx";
+import OAuth2LoginCallBack from "./pages/OAuth2LoginCallBack.jsx";
 
 
 export const router = createBrowserRouter([
     {
-        element: <ShopApplicationWrapper />, // navigation za sve OSTALO
-        children: [
+        path: "/",
+        element: <ShopApplicationWrapper />,
+        children:[
             {
-                path: "/women",
-                element: <ProductListPage categoryType={'WOMEN'}/>
+                path:"/",
+                element:<Shop />
             },
             {
-                path: "/men",
-                element: <ProductListPage categoryType={'MEN'}/>
+                path:"/women",
+                element:<ProductListPage categoryType={'WOMEN'}/>,
             },
             {
-                path: "/product/:productId",
-                loader: loadProductByID,
+                path:"/men",
+                element:<ProductListPage categoryType={'MEN'}/>,
+            },
+            {
+                path:"/product/:slug",
+                loader: loadProductBySlug,
                 element: <ProductDetails />
+            },
+        ]
+    },
+    {
+        path:"/v1/",
+        element:<AuthenticationWrapper />,
+        children:[
+            {
+                path:"login",
+                element:<Login />
+            },
+            {
+                path:"register",
+                element:<Register />
             }
         ]
     },
     {
-        path: "/",
-        element: <HomeLayout />, // banner + navigation
-        children: [
-            {
-                path: "",
-                element: <App />
-            }
-        ]
+        path:'/oauth2/callback',
+        element:<OAuth2LoginCallBack />
     }
 ]);

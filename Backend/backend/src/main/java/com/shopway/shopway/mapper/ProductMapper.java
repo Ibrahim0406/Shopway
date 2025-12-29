@@ -107,7 +107,7 @@ public class ProductMapper {
     }
 
     private String getProductThumbnail(List<Resources> resources) {
-        return resources.stream().filter(Resources::getIsPrimary).findFirst().orElse(null).getName();
+        return resources.stream().filter(Resources::getIsPrimary).findFirst().orElse(null).getUrl();
     }
 
     public List<ProductVariantDto> mapProductVariantListToDto(List<ProductVariant> productVariants) {

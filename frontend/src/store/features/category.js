@@ -1,15 +1,16 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 
 
 export const initialState = {
-    categories: [],
+    categories:[]
 }
 
+
 export const categorySlice = createSlice({
-    name: "categorySlice",
+    name:'categorySlice',
     initialState,
-    reducers: {
-        loadCategories: (state, action) => {
+    reducers:{
+        loadCategories: (state,action)=>{
             return {
                 ...state,
                 categories: action?.payload
@@ -18,5 +19,6 @@ export const categorySlice = createSlice({
     }
 })
 
-export const {loadCategories} = categorySlice?.actions;
+export const { loadCategories } = categorySlice?.actions;
+
 export default categorySlice?.reducer;

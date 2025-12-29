@@ -1,85 +1,89 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import FilterIcon from "../../components/common/FilterIcon.jsx";
-import content from '../../data/content.json';
-import Categories from "../../components/Filters/Categories.jsx";
-import PriceFilter from "../../components/Filters/PriceFilter.jsx";
-import ColorsFilter from "../../components/Filters/ColorsFilter.jsx";
-import SizeFilter from "../../components/Filters/SizeFilter.jsx";
-import ProductCard from "./ProductCard.jsx";
-import {useDispatch, useSelector} from "react-redux";
-import {getAllProducts} from "../../api/fetchProducts.js";
-import {setLoading} from "../../store/features/common.js";
+// javascript
+"use client"
 
-const categories = content?.categories;
+import { useEffect, useMemo, useState } from "react"
+import FilterIcon from "../../components/common/FilterIcon"
+import content from "../../data/content.json"
+import Categories from "../../components/Filters/Categories"
+import PriceFilter from "../../components/Filters/PriceFilter"
+import ColorsFilter from "../../components/Filters/ColorsFilter"
+import SizeFilter from "../../components/Filters/SizeFilter"
+import ProductCard from "./ProductCard"
+import { getAllProducts } from "../../api/fetchProducts"
+import { useDispatch, useSelector } from "react-redux"
+import { setLoading } from "../../store/features/common"
+const categories = content?.categories
 
-function ProductListPage({ categoryType }) {
-    const categoryData  = useSelector((state) => state?.categoryState?.categories)
-    const dispatch = useDispatch();
-    const [products, setProducts] = useState([]);
+const ProductListPage = ({ categoryType }) => {
+    const categoryData = useSelector((state) => state?.categoryState?.categories)
+    const dispatch = useDispatch()
+    const [products, setProducts] = useState([])
 
     const categoryContent = useMemo(() => {
-        return categories?.find(category => category.code === categoryType);
-    }, [categoryType]);
-    const productListItems = useMemo(()=>{
-        return content?.products.filter((product)=>product?.category_id===categoryContent?.id)
-    }, [categoryContent])
+        return categories?.find((category) => category.code === categoryType)
+    }, [categoryType])
 
     const category = useMemo(() => {
-        return categoryData?.find(element => element?.code === categoryType);
-    }, [categoryData, categoryType]);
+        return categoryData?.find((element) => element?.code === categoryType)
+    }, [categoryData, categoryType])
 
     useEffect(() => {
-        if (!category?.id) return;
-
-        dispatch(setLoading(true));
-
-        getAllProducts(category.id)
-            .then(res => {
-                setProducts(res || []);
+        dispatch(setLoading(true))
+        getAllProducts(category?.id)
+            .then((res) => {
+                // podrška za API koji vraća { data: [...] } ili direktno [...]
+                setProducts(res?.data || res)
             })
-            .catch(error => {
-                console.error(error);
+            .catch((error) => {
+                console.error(error)
             })
             .finally(() => {
-                dispatch(setLoading(false));
-            });
+                dispatch(setLoading(false))
+            })
+    }, [category?.id, dispatch])
 
-    }, [category?.id, dispatch]);
-
+    const defaultThumbnail = "https://via.placeholder.com/400x500?text=No+Image"
 
     return (
         <div>
             <div className="flex">
                 <div className="w-[20%] p-[10px] border rounded-lg m-[20px]">
-                    <div className="flex justify-between">
-                        <p className="text-lg text-gray-600">Filter</p>
+                    {/* Filters */}
+                    <div className="flex justify-between ">
+                        <p className="text-[16px] text-gray-600">Filter</p>
                         <FilterIcon />
                     </div>
                     <div>
-                        <p className="text-lg text-black mt-5">Categories</p>
-                        <Categories types={categoryContent?.types}/>
-                        <hr/>
+                        {/* Product types */}
+                        <p className="text-[16px] text-black mt-5">Categories</p>
+                        <Categories types={categoryContent?.types} />
+                        <hr></hr>
                     </div>
-                    <PriceFilter/>
-                    <hr/>
-                    <ColorsFilter colors={categoryContent?.meta_data?.colors}/>
-                    <hr/>
-                    <SizeFilter sizes={categoryContent?.meta_data?.sizes}/>
+                    {/* Price */}
+                    <PriceFilter />
+                    <hr></hr>
+                    {/* Colors */}
+                    <ColorsFilter colors={categoryContent?.meta_data?.colors} />
+                    <hr></hr>
+                    {/* Sizes */}
+                    <SizeFilter sizes={categoryContent?.meta_data?.sizes} />
                 </div>
 
-                <div className={"p-[15px]"}>
-                    <p className={"text-black text-lg"}>{category?.description}</p>
-                    <div className={"pt-4 px-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-8"}>
-                        {
-                            products?.map((item, index) => (
-                                <ProductCard key={item?.id+"_"+index} {...item} title={item?.name} />
-                            ))
-                        }
+                <div className="p-[15px]">
+                    <p className="text-black text-lg">{category?.description}</p>
+                    {/* Products */}
+                    <div className="pt-4 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-8 px-2">
+                        {products?.map((item, index) => {
+                            const primaryResource = item?.resources?.find((r) => r?.isPrimary) || item?.resources?.[0]
+                            const url = primaryResource?.url || defaultThumbnail
+
+                            return <ProductCard key={item?.id + "_" + index} {...item} title={item?.name} url={url} />
+                        })}
                     </div>
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default ProductListPage;
+export default ProductListPage

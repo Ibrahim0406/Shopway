@@ -2,39 +2,67 @@ import React from 'react';
 import Wishlist from "../common/Wishlist.jsx";
 import AccountIcon from "../common/AccountIcon.jsx";
 import CartIcon from "../common/CartIcon.jsx";
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import './Navigation.css'
+import {countCartItems} from "../../store/features/cart.js";
+import {useSelector} from "react-redux";
 
 
-function Navigation() {
+function Navigation({variant = "default"}) {
+    const cartLength = useSelector(countCartItems);
+    const navigate = useNavigate();
     return (
-        <nav className='flex items-center py-6 px-16 justify-between gap-40'>
-            <div className={"flex items-center gap-6"}>
-                <a href="/" className={"text-black text-3xl gap-8 font-bold"}>Shopway</a>
+        <nav className='flex items-center py-6 px-16 justify-between gap-20 custom-nav'>
+            <div className='flex items-center gap-6'>
+                {/* Logo */}
+                <a className='text-3xl text-black font-bold gap-8' href='/'>ShopEase</a>
             </div>
-            <div className="flex flex-wrap items-center gap-10 flex-1">
-                <ul className={"flex gap-14 text-gray-600 hover:text-black"}>
-                    <li><NavLink to="/" className={({isActive})=>isActive? 'active-link':''}>Shop</NavLink></li>
-                    <li><NavLink to="/men" className={({isActive})=>isActive? 'active-link':''}>Men</NavLink></li>
-                    <li><NavLink to="/women" className={({isActive})=>isActive? 'active-link':''}>Women</NavLink></li>
-                    <li><NavLink to="/kids" className={({isActive})=>isActive? 'active-link':''}>Kids</NavLink></li>
-                </ul>
+            { variant ==="default" &&
+                <div className='flex flex-wrap items-center gap-10'>
+                    {/* Nav items */}
+                    <ul className='flex gap-14 text-gray-600 hover:text-black'>
+                        <li><NavLink to='/' className={({isActive})=> isActive ? 'active-link':''}>Shop</NavLink></li>
+                        <li><NavLink to='/men' className={({isActive})=> isActive ? 'active-link':''}>Men</NavLink></li>
+                        <li><NavLink to='/women' className={({isActive})=> isActive ? 'active-link':''}>Women</NavLink></li>
+                        <li><NavLink to='/kids' className={({isActive})=> isActive ? 'active-link':''}>Kids</NavLink></li>
+                    </ul>
+
+                </div>
+            }
+            { variant ==="default" &&
+                <div className='flex justify-center'>
+                    {/* Search bar */}
+                    <div className='border rounded flex overflow-hidden'>
+                        <div className="flex items-center justify-center px-4 border-1">
+                            <svg className="h-4 w-4 text-grey-dark" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg>
+                            <input type="text" className="px-4 py-2 outline-none" placeholder="Search"/>
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+            <div className='flex flex-wrap items-center gap-4'>
+                {/* Action Items - icons */}
+                { variant ==="default" &&
+                    <ul className='flex gap-8 '>
+                        <li><button ><Wishlist /></button></li>
+                        <li><button onClick={()=> navigate('/account-details')}><AccountIcon/></button></li>
+                        <li><Link to='/cart-items' className='flex flex-wrap'><CartIcon />
+                            {cartLength > 0 && <div className='absolute ml-6 inline-flex items-center justify-center h-6 w-6 bg-black text-white rounded-full border-2 text-xs border-white'>{cartLength}</div>}
+                        </Link></li>
+                    </ul>}
+                {
+                    variant === "auth" &&
+                    <ul className='flex gap-8'>
+                        <li className='text-black border border-black hover:bg-slate-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none'><NavLink to={"/v1/login"} className={({isActive})=> isActive ? 'active-link':''}>Login</NavLink></li>
+                        <li className='text-black border border-black hover:bg-slate-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none'><NavLink to="/v1/register" className={({isActive})=> isActive ? 'active-link':''}>Signup</NavLink></li>
+                    </ul>
+                }
             </div>
-            <div className="flex items-center border pl-3 gap-2 bg-white border-gray-500/30 h-[46px] rounded-md overflow-hidden max-w-md w-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 30 30" fill="#6B7280">
-                    <path d="M13 3C7.489 3 3 7.489 3 13s4.489 10 10 10a9.95 9.95 0 0 0 6.322-2.264l5.971 5.971a1 1 0 1 0 1.414-1.414l-5.97-5.97A9.95 9.95 0 0 0 23 13c0-5.511-4.489-10-10-10m0 2c4.43 0 8 3.57 8 8s-3.57 8-8 8-8-3.57-8-8 3.57-8 8-8"/>
-                </svg>
-                <input type="text" placeholder="Search for products" className="w-full h-full outline-none text-gray-500 placeholder-gray-500 text-sm" />
-            </div>
-            <div className="flex flex-wrap items-center gap-4">
-                <ul className={"flex items-center gap-8"}>
-                    <li><button><Wishlist></Wishlist></button></li>
-                    <li><button><AccountIcon></AccountIcon></button></li>
-                    <li><Link to={"/cart-items"}><CartIcon/></Link></li>
-                </ul>
-            </div>
+
         </nav>
-    );
+    )
 }
 
 export default Navigation;

@@ -1,34 +1,27 @@
-import React from 'react';
-import FavouriteIcon from "../../components/common/FavouriteIcon.jsx";
-import {Link} from "react-router-dom";
+import React from 'react'
+import SvgFavourite from '../../components/common/SvgFavourite'
+import { Link } from 'react-router-dom'
 
-function ProductCard({id, title, description, price, discount, rating, brand, thumbnail}) {
+const ProductCard = ({id,title,description,price,discount,rating,brand,thumbnail,slug}) => {
     return (
-        <div className={"flex flex-col hover:scale-105 transition relative"}>
-            <Link to={`/product/${id}`}>
-            <img
-                src={thumbnail}
-                alt="imagehere"
-                loading="lazy"
-                style={{
-                    objectFit: 'cover',
-                    objectPosition: 'center'
-                }}
-                className="rounded cursor-pointer h-[320px] max-h-[320px] w-[280px] max-w-[280px]"
-            />
+        <div className='flex flex-col hover:scale-105 relative'>
+            <Link to={`/product/${slug}`}>
+                <img className={`h-[320px] w-[280px]
+         border rounded-lg cursor-pointer object-cover block`} src={thumbnail} alt={title}/>
             </Link>
-            <button onClick={()=>console.log("click button")} className={"absolute top-0 right-0 pt-2 pr-2 cursor-pointer"}><FavouriteIcon/></button>
-            <div className="flex justify-between">
-                <div className="flex flex-col pt-2">
-                    <p className="text-[16px] font-semibold p-1">{title}</p>
-                    {description && <p className={"text-[12px] text-gray-600 px-1"}>{brand}</p>}
+
+            <div className='flex justify-between items-center'>
+                <div className='flex flex-col pt-2'>
+                    <p className='text-[16px] p-1'>{title}</p>
+                    {description && <p className='text-[12px] px-1 text-gray-600'>{brand}</p>}
                 </div>
                 <div>
                     <p>${price}</p>
                 </div>
             </div>
+            <button onClick={()=> console.log("Click button")} className='absolute top-0 right-0 pt-4 pr-4 cursor-pointer'><SvgFavourite /></button>
         </div>
-    );
+    )
 }
 
-export default ProductCard;
+export default ProductCard

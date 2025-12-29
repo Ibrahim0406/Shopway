@@ -1,5 +1,4 @@
 import React from 'react';
-import Jeans from '../../assets/jeans.jpg'
 import ArrowIcon from "../common/ArrowIcon.jsx";
 
 function Card({imagePath, title, description, actionArrow, height, width}) {
