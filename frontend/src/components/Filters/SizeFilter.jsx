@@ -1,38 +1,42 @@
-import React from 'react';
-import {colorSelector} from "./ColorsFilter.jsx";
-import {useCallback} from "react"
+import React, {useEffect, useState, useCallback} from 'react';
 
-function SizeFilter({sizes, hideTitle}) {
-    const [appliedSize, setAppliedSize] = React.useState([]);
+function SizeFilter({sizes, hidleTitle, multi=true, onChange}) {
+    const [appliedSize,setAppliedSize] = useState([]);
     const onClickDiv = useCallback((item)=>{
-        setAppliedSize(prevSize => {
-            if (prevSize.indexOf(item) > -1){
-                return prevSize.filter(size => size !== item);
-            }else{
-                return [...prevSize, item];
+        if(appliedSize.indexOf(item) > -1){
+            setAppliedSize(appliedSize?.filter(size => size !== item));
+        }
+        else{
+            if(multi){
+                setAppliedSize([...appliedSize,item]);
             }
-        });
-    }, []); // Prazan dependency array
+            else{
+                setAppliedSize([item]);
+            }
+        }
+    },[appliedSize, multi]);
+
+    useEffect(()=>{
+        onChange && onChange(appliedSize);
+    },[appliedSize, onChange])
+
 
     return (
-        <div className={"flex flex-wrap mb-4"}>
-            {!hideTitle && <p className={"text-lg text-black mt-5"}>Size</p>}
-            <div className={"flex flex-wrap p-4"}>
-                {sizes?.map((item, index)=>{
-                    return(
-                        <div key={index} className={"flex flex-col mr-2"}>
-                            <div
-                                className="w-[50px] h-8 mb-4 mr-4 rounded-lg cursor-pointer
-                                            flex items-center justify-center
-                                            bg-white border border-gray-500 text-gray-500
-                                                hover:outline-2 hover:scale-105 transition-all"
-                                onClick={() => onClickDiv(item)}
-                                style={appliedSize.includes(item) ? { background: 'black', color: 'white' } : {}}
-                            >
-                                {item}
-                            </div>
+        <div className={`flex flex-col mb-4}`}>
+            <p className='text-[16px] text-black mt-5 mb-5'>Size</p>}
+            <div className='flex flex-wrap px-2'>
+                {sizes?.map((item,index)=> {
+                    return (
+                        <div key={index} className='flex flex-col mr-2'>
+                            <div className='w-[50px] border text-center mb-4 rounded-lg mr-4 cursor-pointer
+                   hover:scale-110 bg-white border-gray-500 text-gray-500' style={appliedSize?.includes(item)?{
+                                background:'black',
+                                color:'white'
+                            }:{}} onClick={()=> onClickDiv(item)}>{item}</div>
+
                         </div>
-                    )})}
+                    )
+                })}
             </div>
         </div>
     );

@@ -1,15 +1,15 @@
-import React from 'react';
+import React from 'react'
+import { colorSelector } from '../../components/Filters/ColorsFilter';
 
-function ProductColors({colors}) {
+const ProductColors = ({colors}) => {
+    console.log("colors ",colors);
     return (
-        <div className={"flex pt-2"}>
-            {
-                colors?.map((color, index) => (
-                    <div style={{background: color?.toLowerCase()}} className={'rounded-[50%] w-4 h-4 mx-2'}></div>
-                ))
-            }
+        <div className='flex pt-2'>
+            {colors?.map((color,index)=>(
+                <div key={index} className={`rounded-[50%] w-4 h-4 mx-2`} style={{background:colorSelector[color]}}></div>
+            ))}
         </div>
-    );
+    )
 }
 
-export default ProductColors;
+export default ProductColors
