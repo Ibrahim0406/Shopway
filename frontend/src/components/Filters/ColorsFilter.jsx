@@ -1,5 +1,5 @@
 import React from 'react';
-import {useCallback} from "react";
+import {useCallback, useState} from "react";
 
 export const colorSelector = {
     "Purple":"#8434E1",
@@ -17,28 +17,29 @@ export const colorSelector = {
 }
 
 function ColorsFilter({colors}) {
-    const [appliedColors, setAppliedColors] = React.useState([]);
+    const [appliedColors,setAppliedColors] = useState([]);
     const onClickDiv = useCallback((item)=>{
-        setAppliedColors(prevColors => {
-            if (prevColors.indexOf(item) > -1){
-                return prevColors.filter(color => color !== item);
-            }else{
-                return [...prevColors, item];
-            }
-        });
-    }, []); // Prazan dependency array jer koristimo functional update
+        if(appliedColors.indexOf(item) > -1){
+
+            setAppliedColors(appliedColors?.filter(color => color !== item));
+        }
+        else{
+            setAppliedColors([...appliedColors,item]);
+        }
+    },[appliedColors,setAppliedColors]);
 
     return (
-        <div className={"flex flex-wrap mb-4"}>
-            <p className={"text-lg text-black mt-5"}>Colors</p>
-            <div className={"flex flex-wrap p-4"}>
-                {colors?.map((item, index)=>{
-                    return(
-                        <div key={index} className={"flex flex-col mr-2"}>
-                            <div className="w-8 h-8 rounded-lg bg-orange-400 mr-4 cursor-pointer hover:outline-2 hover:scale-105 transition-all" onClick={()=>onClickDiv(item)} style={{background: `${colorSelector[item]}`}}></div>
-                            <p className={"text-sm text-gray-600 mb-2"} style={{color:`${appliedColors?.includes(item) ? 'black' : ''}`}}>{item}</p>
+        <div className='flex flex-col mb-4'>
+            <p className='text-[16px] text-black mt-5 mb-5'>Colors</p>
+            <div className='flex flex-wrap px-2'>
+                {colors?.map(item=> {
+                    return (
+                        <div className='flex flex-col mr-2'>
+                            <div className='w-8 h-8 border rounded-xl mr-4 cursor-pointer hover:scale-110' onClick={()=>onClickDiv(item)} style={{background:`${colorSelector[item]}`}}></div>
+                            <p className='text-sm text-gray-400 mb-2' style={{color:`${appliedColors?.includes(item) ? 'black':''}`}}>{item}</p>
                         </div>
-                    )})}
+                    )
+                })}
             </div>
         </div>
     );
