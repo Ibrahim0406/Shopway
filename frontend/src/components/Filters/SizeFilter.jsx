@@ -23,7 +23,7 @@ function SizeFilter({sizes, hidleTitle, multi=true, onChange}) {
 
     return (
         <div className={`flex flex-col mb-4}`}>
-            <p className='text-[16px] text-black mt-5 mb-5'>Size</p>}
+            <p className='text-[16px] text-black mt-5 mb-5'>Size</p>
             <div className='flex flex-wrap px-2'>
                 {sizes?.map((item,index)=> {
                     return (

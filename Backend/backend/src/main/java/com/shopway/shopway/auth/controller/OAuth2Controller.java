@@ -38,7 +38,7 @@ public class OAuth2Controller {
 
         String token = jwtTokenHelper.generateToken(user.getUsername());
 
-        response.sendRedirect("http://localhost:3000/oauth2/callback?token=" + token);
+        response.sendRedirect("http://localhost:5173/oauth2/callback?token=" + token);
     }
 
 
