@@ -47,24 +47,21 @@ const ProductListPage = ({ categoryType }) => {
     return (
         <div>
             <div className="flex">
-                <div className="w-[20%] p-[10px] border rounded-lg m-[20px]">
+                <div className="w-[20%] p-[10px] border border-gray-200 shadow-lg rounded-lg m-[20px]">
                     {/* Filters */}
                     <div className="flex justify-between ">
-                        <p className="text-[16px] text-gray-600">Filter</p>
+                        <p className="text-2xl font-semibold text-gray-600">Filter</p>
                         <FilterIcon />
                     </div>
                     <div>
                         {/* Product types */}
-                        <p className="text-[16px] text-black mt-5">Categories</p>
+                        <p className="text-[16px] text-black mt-5 font-semibold">Categories</p>
                         <Categories types={categoryContent?.types} />
-                        <hr></hr>
                     </div>
                     {/* Price */}
                     <PriceFilter />
-                    <hr></hr>
                     {/* Colors */}
                     <ColorsFilter colors={categoryContent?.meta_data?.colors} />
-                    <hr></hr>
                     {/* Sizes */}
                     <SizeFilter sizes={categoryContent?.meta_data?.sizes} />
                 </div>

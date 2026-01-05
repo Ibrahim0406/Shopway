@@ -14,3 +14,30 @@ export const fetchUserDetails = async ()=>{
         throw new Error(err);
     }
 }
+
+export const addAddressAPI = async (data)=>{
+    const url = API_BASE_URL + '/api/address';
+    try{
+        const response = await axios(url,{
+            method:"POST",
+            headers:getHeaders()
+        });
+        return response?.data;
+    }catch (err){
+        throw new Error(err);
+    }
+}
+
+export const deleteAddressAPI = async (id)=>{
+    const url = API_BASE_URL + `/api/address/${id}`;
+    try{
+        const response = await axios(url,{
+            method:"DELETE",
+            headers:getHeaders()
+        });
+        return response?.data;
+    }
+    catch(err){
+        throw new Error(err);
+    }
+}
