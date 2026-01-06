@@ -7,10 +7,9 @@ import { setLoading } from '../../store/features/common';
 import { fetchUserDetails } from '../../api/userInfo';
 import { selectCartItems } from '../../store/features/cart';
 
-const stripePublishableKey = import.meta.env.VITE_STRIPE_KEY;
 
 //Publishable Key
-const stripePromise = loadStripe(stripePublishableKey);
+const stripePromise = loadStripe('pk_test_51Sh5ETL3E4yIqr1xlzGtrhwnPsW4sLKwHLVsztd2MGxeAVf2qW2uCqrzgi42RACVCQNheoW1zMbiBHlA9WKCA0ov00bQkxJxtw');
 
 const PaymentPage = (props) => {
 
