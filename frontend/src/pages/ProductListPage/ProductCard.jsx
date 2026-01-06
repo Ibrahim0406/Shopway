@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 
 const ProductCard = ({id,title,description,price,discount,rating,brand,thumbnail,slug}) => {
     return (
-        <div className='flex flex-col hover:scale-105 relative'>
+        <div className='flex flex-col hover:scale-105 relative pt-3'>
             <Link to={`/product/${slug}`}>
                 <img className={`h-[320px] w-[280px]
-         border rounded-lg cursor-pointer object-cover block`} src={thumbnail} alt={title}/>
+          rounded-lg cursor-pointer object-cover block`} src={thumbnail} alt={title}/>
             </Link>
 
             <div className='flex justify-between items-center'>

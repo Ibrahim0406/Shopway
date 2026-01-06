@@ -8,6 +8,9 @@ import { fetchCategories } from "./api/fetchCategories.js";
 import { useDispatch } from "react-redux";
 import { loadCategories } from "./store/features/category.js";
 import { setLoading } from "./store/features/common.js";
+import Testimonials from "./components/Testimonials/Testimonials.jsx";
+import AboutUs from "./components/AboutUs/AboutUs.jsx";
+import {Snowfall} from "react-snowfall";
 
 const Shop = () => {
 
@@ -28,9 +31,18 @@ const Shop = () => {
 
     return (
         <>
+            <Snowfall style={{
+                position: "fixed",
+                width: "100vw",
+                height: "100vh",
+                zIndex: 50,
+                pointerEvents: "none",
+            }}/>
             <HeroSection />
             <NewArrivals />
             {content?.pages?.shop?.sections && content?.pages?.shop?.sections?.map((item, index) => <Category key={item?.title+index} {...item} />)}
+            <AboutUs />
+            <Testimonials />
             <Footer content={content?.footer}/>
         </>
     )

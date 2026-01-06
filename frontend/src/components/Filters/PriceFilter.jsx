@@ -10,14 +10,14 @@ function PriceFilter() {
     })
     return (
         <div className={"flex flex-col"}>
-            <p className={"text-lg text-black mt-5"}>Price</p>
+            <p className={"text-lg font-semibold text-black mt-5 mb-5"}>Price</p>
             <RangeSlider className={"custom-range-slider"} min={0} max={1000} defaultValue={[range.min, range.max]} onInput={(values)=>setRange({
                 min: values[0],
                 max: values[1]
             })}/>
             <div className="flex justify-between">
-                <div className='border rounded-lg h-8 mt-4 max-w-[50%] w-[40%] flex items-center'><p className='pl-4 text-gray-600'>$</p> <input type='number' value={range?.min} className='outline-none px-4 text-gray-600' min={0} max="499" disabled placeholder='min'/></div>
-                <div className='border rounded-lg h-8 mt-4 max-w-[50%] w-[40%] flex items-center'><p className='pl-4 text-gray-600'>$</p> <input type='number' value={range?.max} className='outline-none px-4 text-gray-600' min={0} max="500" disabled placeholder='max'/></div>
+                <div className='border border-gray-200 shadow-lg rounded-lg h-8 mt-4 max-w-[50%] w-[40%] flex items-center'><p className='pl-4 text-gray-600'>$</p> <input type='number' value={range?.min} className='outline-none px-4 text-gray-600' min={0} max="499" disabled placeholder='min'/></div>
+                <div className='border border-gray-200 shadow-lg rounded-lg h-8 mt-4 max-w-[50%] w-[40%] flex items-center'><p className='pl-4 text-gray-600'>$</p> <input type='number' value={range?.max} className='outline-none px-4 text-gray-600' min={0} max="500" disabled placeholder='max'/></div>
             </div>
         </div>
     );
