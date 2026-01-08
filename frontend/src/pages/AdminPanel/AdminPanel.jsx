@@ -8,7 +8,7 @@ import CategoryList from "./Category/CategoryList.jsx";
 import CategoryEdit from "./Category/CategoryEdit.jsx";
 import {fileUploadAPI} from "../../api/fileUpload.js";
 
-const CDN_URL = 'https://codedev.b-cdn.net';
+const CDN_URL = 'https://xhoqbgwlvtfnyzuxurfe.supabase.co/storage/v1/object/public/shopway';
 
 const httpClient = (url, options={})=>{
     const token = localStorage.getItem("authToken");
@@ -24,7 +24,7 @@ const dataProvider = withLifecycleCallbacks(simpleRestProvider('http://localhost
 
             const requestBody = { ...params };
 
-            // ✅ THUMBNAIL
+            // THUMBNAIL
             if (params?.thumbnail?.rawFile) {
                 const fileName = params.thumbnail.rawFile.name.replaceAll(" ", "-");
                 const formData = new FormData();
@@ -35,7 +35,7 @@ const dataProvider = withLifecycleCallbacks(simpleRestProvider('http://localhost
                 requestBody.thumbnail = `${CDN_URL}/${fileName}`;
             }
 
-            // ✅ PRODUCT RESOURCES
+            // PRODUCT RESOURCES
             const productResList = params?.productResources ?? [];
 
             requestBody.productResources = await Promise.all(
