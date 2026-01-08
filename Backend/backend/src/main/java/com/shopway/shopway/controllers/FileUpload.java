@@ -1,4 +1,4 @@
-/*package com.shopway.shopway.controllers;
+package com.shopway.shopway.controllers;
 
 
 import com.shopway.shopway.services.FileUploadService;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/files")
-@CrossOrigin
+@RequestMapping("/api/file")
+@CrossOrigin(origins = "http://localhost:5137")
 public class FileUpload {
 
     @Autowired
@@ -22,4 +22,3 @@ public class FileUpload {
         return new ResponseEntity<>(statusCode == 201 ? HttpStatus.CREATED : HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
-*/

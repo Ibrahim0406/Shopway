@@ -1,57 +1,40 @@
-/*package com.shopway.shopway.services;
+package com.shopway.shopway.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @Service
 public class FileUploadService {
 
+    @Autowired
+    private S3Client s3Client;
+
     @Value("${FILE_ZONE}")
-    private String storageZone;
+    private String bucketName;
 
-    @Value("${FILE_UPLOAD_KEY}")
-    private String fileUploadKey;
-
-    @Value("${FILE_HOST_URL}")
-    private String fileHostName;
-
-    public int uploadFile(MultipartFile file, String fileName){
-
+    public int uploadFile(MultipartFile file, String fileName) {
         try {
-            String urlString = fileHostName + "/" + storageZone + "/" + fileName;
-            URL url = new URL(urlString);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("PUT");
-            connection.setRequestProperty("AccessKey", fileUploadKey);
-            connection.setRequestProperty("Content-Type", "application/octet-stream");
-            connection.setDoOutput(true);
+            byte[] bytes = file.getBytes();
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(fileName)
+                    .contentType(file.getContentType())
+                    .build();
 
-            long fileSize = file.getSize();
+            s3Client.putObject(putObjectRequest,
+                    RequestBody.fromBytes(bytes));
 
-            try (BufferedInputStream inputStream = new BufferedInputStream(file.getInputStream());
-                 BufferedOutputStream outputStream = new BufferedOutputStream(connection.getOutputStream())) {
-
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-            }
-            int responseCode = connection.getResponseCode();
-            String responseMsg = connection.getResponseMessage();
-            return responseCode;
-        }
-        catch(Exception e){
+            return 201; // Uspešno kreirano
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(System.getProperty("https.protocols"));
             return 500;
         }
-
     }
 }
-*/
+

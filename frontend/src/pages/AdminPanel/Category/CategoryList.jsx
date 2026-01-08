@@ -1,7 +1,7 @@
 import React from "react";
 import { ArrayField, Datagrid, List, TextField } from "react-admin";
 
-const CategoryList = () => {
+function CategoryList () {
     return (
         <List>
             <Datagrid>
@@ -20,6 +20,6 @@ const CategoryList = () => {
             </Datagrid>
         </List>
     );
-};
+}
 
 export default CategoryList;
