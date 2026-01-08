@@ -3,6 +3,7 @@ package com.shopway.shopway.controllers;
 import com.shopway.shopway.dto.CategoryDto;
 import com.shopway.shopway.entities.Category;
 import com.shopway.shopway.services.CategoryService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +33,9 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories(){
+    public ResponseEntity<List<Category>> getAllCategories(HttpServletResponse response){
         List<Category> categoryList = categoryService.getAllCategories();
+        response.setHeader("Content-Range", "category 0-" + (categoryList.size() - 1) + "/" + categoryList.size());
         return new ResponseEntity<>(categoryList, HttpStatus.OK);
     }
 
