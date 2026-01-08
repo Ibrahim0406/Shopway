@@ -17,6 +17,7 @@ import OrderConfirmed from "./pages/OrderConfirmed/OrderConfirmed.jsx";
 import Profile from "./pages/Account/Profile.jsx";
 import Orders from "./pages/Account/Orders.jsx";
 import Settings from "./pages/Account/Settings.jsx";
+import AdminPanel from "./pages/AdminPanel/AdminPanel.jsx";
 
 
 export const router = createBrowserRouter([
@@ -91,5 +92,9 @@ export const router = createBrowserRouter([
         path:'/oauth2/callback',
         element:<OAuth2LoginCallBack />
     },
+    {
+        path: "/admin/*",
+        element: <ProtectedRoute><AdminPanel/></ProtectedRoute>
+    }
 
 ]);
