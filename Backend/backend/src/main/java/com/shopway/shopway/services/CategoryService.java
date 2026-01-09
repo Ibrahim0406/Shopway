@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/*
+ * Servis za upravljanje kategorijama proizvoda i njihovim tipovima (subcategorijama).
+ */
 @Service
 public class CategoryService {
 
@@ -22,11 +25,24 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    /*
+     * Pronalazi kategoriju po ID-u.
+     *
+     * @param categoryId UUID kategorije
+     * @return Category objekat ako postoji, null ako ne postoji
+     */
     public Category getCategory(UUID categoryId) {
         Optional<Category> category = categoryRepository.findById(categoryId);
         return category.orElse(null);
     }
 
+    /*
+     * Kreira novu kategoriju sa njenim tipovima.
+     * Mapira CategoryDto u Category entitet i čuva u bazi zajedno sa svim CategoryType objektima.
+     *
+     * @param categoryDto DTO sa podacima kategorije i listom tipova
+     * @return sačuvana Category sa generisanim ID-em
+     */
     public Category createCategory(CategoryDto categoryDto) {
         logger.info("CategoryService.createCategory pozvan sa categoryDto: {}", categoryDto);
         Category category = mapToEntity(categoryDto);
@@ -37,6 +53,14 @@ public class CategoryService {
         return saved;
     }
 
+    /*
+     * Mapira CategoryDto u Category entitet.
+     * Kreira Category objekat i mapira sve CategoryType objekte iz DTO-a.
+     * Postavlja bidirekcionalnu vezu između Category i CategoryType.
+     *
+     * @param categoryDto DTO objekat
+     * @return Category entitet spreman za čuvanje
+     */
     private Category mapToEntity(CategoryDto categoryDto) {
         logger.info("Mapiranje CategoryDto u Category entitet...");
         Category category = Category.builder()
@@ -56,6 +80,14 @@ public class CategoryService {
         return category;
     }
 
+    /*
+     * Mapira listu CategoryTypeDto objekata u listu CategoryType entiteta.
+     * Svaki CategoryType dobija referencu na parent Category (bidirekciona veza).
+     *
+     * @param categoryTypeList lista CategoryTypeDto objekata
+     * @param category parent Category objekat
+     * @return lista CategoryType entiteta
+     */
     private List<CategoryType> mapToCategoryTypes(List<CategoryTypeDto> categoryTypeList, Category category) {
         logger.info("Mapiranje {} CategoryTypeDto objekata...", categoryTypeList.size());
         return categoryTypeList
@@ -76,10 +108,30 @@ public class CategoryService {
                 }).collect(Collectors.toList());
     }
 
+    /*
+     * Vraća sve kategorije iz baze podataka.
+     *
+     * @return lista svih Category objekata
+     */
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
+    /*
+     * Ažurira postojeću kategoriju.
+     * Omogućava izmenu osnovnih podataka (name, code, description) i
+     * dodavanje/izmenu/brisanje CategoryType objekata.
+     *
+     * Logika za CategoryType:
+     * - Ako CategoryTypeDto ima ID - ažurira postojeći CategoryType
+     * - Ako CategoryTypeDto nema ID - kreira novi CategoryType
+     * - CategoryType koji nisu u DTO listi se implicitno brišu (zato što se postavlja nova lista)
+     *
+     * @param categoryDto DTO sa novim podacima
+     * @param categoryId UUID kategorije koja se ažurira
+     * @return ažurirana Category
+     * @throws ResourceNotFoundException ako kategorija sa datim ID-em ne postoji
+     */
     public Category updateCategory(CategoryDto categoryDto, UUID categoryId) {
         logger.info("CategoryService.updateCategory pozvan za ID: {}", categoryId);
         Category category = categoryRepository.findById(categoryId)
@@ -134,7 +186,12 @@ public class CategoryService {
                 saved.getId(), saved.getCategoryTypes() != null ? saved.getCategoryTypes().size() : 0);
         return saved;
     }
-
+    /*
+     * Briše kategoriju iz baze podataka.
+     * Zbog CascadeType.ALL, automatski briše i sve povezane CategoryType objekte.
+     *
+     * @param categoryId UUID kategorije koja se briše
+     */
     public void deleteCategory(UUID categoryId) {
         categoryRepository.deleteById(categoryId);
     }

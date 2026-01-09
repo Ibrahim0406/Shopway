@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.UUID;
-
+/*
+ * Servis za upravljanje adresama korisnika.
+ */
 @Service
 public class AddressService {
 
@@ -20,6 +22,14 @@ public class AddressService {
     @Autowired
     private AddressRepository addressRepository;
 
+    /*
+     * Kreira novu adresu za trenutno prijavljenog korisnika.
+     * Automatski povezuje adresu sa korisnikom preko Principal objekta.
+     *
+     * @param addressRequest DTO sa podacima adrese (ulica, grad, država, poštanski broj, telefon)
+     * @param principal objekat sa informacijama o autentifikovanom korisniku
+     * @return sačuvana Address sa generisanim ID-em
+     */
     public Address createAddress(AddressRequest addressRequest, Principal principal) {
         User user = (User) userDetailsService.loadUserByUsername(principal.getName());
         Address address = Address.builder()
@@ -33,7 +43,15 @@ public class AddressService {
         return addressRepository.save(address);
     }
 
-
+    /*
+     * Briše adresu po ID-u.
+     *
+     * NAPOMENA: Ova metoda ne proverava da li adresa pripada trenutno prijavljenom korisniku.
+     * To predstavlja potencijalni sigurnosni problem jer bilo koji autentifikovani korisnik
+     * može obrisati tuđu adresu ako zna njen ID.
+     *
+     * @param id UUID adrese koja se briše
+     */
     public void deleteAddress(UUID id) {
         addressRepository.deleteById(id);
     }

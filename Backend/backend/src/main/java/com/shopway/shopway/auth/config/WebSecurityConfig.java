@@ -21,7 +21,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
+/*
+ * Glavna konfiguracija Spring Security-ja za aplikaciju.
+ * Definiše pravila autentifikacije, autorizacije i sigurnosne filtere.
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -32,13 +35,24 @@ public class WebSecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
-
+    // Endpoints koji ne zahtevaju autentifikaciju
     private final String[] publicAPIs = {
             "/api/auth/**",
             "/oauth2/**",
             "/login/oauth2/**"
     };
-
+    /*
+     * Konfiguriše glavni security filter chain sa pravilima za:
+     * - CSRF zaštitu (isključena)
+     * - Autorizaciju endpointa (koji su javni, koji zahtevaju autentifikaciju)
+     * - CORS
+     * - Session management (stateless zbog JWT-a)
+     * - OAuth2 login
+     * - Exception handling
+     * - JWT authentication filter
+     *
+     * @return konfigurisani SecurityFilterChain
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
@@ -55,17 +69,26 @@ public class WebSecurityConfig {
 
         return http.build();
     }
+    /* Konifiguriše WebSecurity da ignoriše zahteve ka javnim API-jima
+    */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web -> web.ignoring().requestMatchers(publicAPIs));
     }
 
-
+    /*
+        Kreira AuthenticationManager bean koji se koristi za autentifikaciju korisnika.
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 
+    /*
+     Kreira PasswordEncoder bean za heširanje i proveru lozinki.
+     Koristi delegating encoder koji automatski detektuje algoritam heširanja.
+     @return PasswordEncoder instanca
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();

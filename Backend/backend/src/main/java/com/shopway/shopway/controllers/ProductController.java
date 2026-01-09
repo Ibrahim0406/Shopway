@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/*
+ * REST kontroler za upravljanje proizvodima.
+ */
 @RestController
 @RequestMapping("/api/products")
 @CrossOrigin(origins = "http://localhost:5137")
@@ -29,6 +32,17 @@ public class ProductController {
         this.productService = productService;
     }
 
+    /*
+     * Vraća listu proizvoda sa opcijama filtriranja.
+     * Može da filtrira po kategoriji, tipu kategorije ili slug-u (jedinstveni URL identifikator).
+     * Postavlja Content-Range header za React Admin paginaciju.
+     *
+     * @param categoryId opcioni UUID kategorije za filtriranje
+     * @param typeId opcioni UUID tipa kategorije za filtriranje
+     * @param slug opcioni slug proizvoda (ako je postavljen, vraća samo taj jedan proizvod)
+     * @param response HTTP response za postavljanje headera
+     * @return ResponseEntity sa listom ProductDto objekata i HTTP statusom 200 OK
+     */
     @GetMapping
     public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam (required = false, name = "categoryId", value = "categoryId") UUID categoryId, @RequestParam (required = false, name = "typeId", value = "typeId") UUID typeId, @RequestParam (required = false) String slug, HttpServletResponse response) {
         List<ProductDto> productList = new ArrayList<>();
@@ -42,26 +56,43 @@ public class ProductController {
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
+    /*
+     * Vraća pojedinačni proizvod po ID-u sa svim detaljima
+     * (varijante, resursi, kategorija, itd.).
+     *
+     * @param id UUID proizvoda
+     * @return ResponseEntity sa ProductDto objektom i HTTP statusom 200 OK
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable UUID id) {
         ProductDto productDto = productService.getProductById(id);
         return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
 
-    //Pravljenje produkta (kreiranje)
+    /*
+     * Kreira novi proizvod u sistemu.
+     * Automatski kreira povezane varijante (boja/veličina) i resurse (slike).
+     *
+     * @param productDto DTO objekat sa podacima proizvoda
+     * @return ResponseEntity sa kreiranim Product objektom i HTTP statusom 201 CREATED
+     */
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody ProductDto productDto){
         Product product = productService.createProduct(productDto);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
+    /*
+     * Ažurira postojeći proizvod.
+     * Može ažurirati osnovne podatke, varijante i resurse.
+     *
+     * @param productDto DTO sa novim podacima (mora sadržati ID)
+     * @param id UUID proizvoda koji se ažurira
+     * @return ResponseEntity sa ažuriranim Product objektom i HTTP statusom 200 OK
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@RequestBody ProductDto productDto, @PathVariable UUID id){
         Product product = productService.updateProduct(productDto);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
-
-
-
-
 }

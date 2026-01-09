@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
+/*
+ * REST kontroler za OAuth2 autentifikaciju (Google Sign-In).
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("/oauth2")
@@ -25,6 +28,15 @@ public class OAuth2Controller {
     @Autowired
     private JWTTokenHelper jwtTokenHelper;
 
+    /*
+     * Callback endpoint koji se poziva nakon uspešne OAuth2 autentifikacije sa Google-om.
+     * Proverava da li korisnik već postoji u bazi, ako ne - kreira ga.
+     * Generiše JWT token i redirektuje korisnika na frontend sa tokenom.
+     *
+     * @param oAuth2User OAuth2 korisnik sa podacima iz Google-a (email, ime, prezime)
+     * @param response HTTP response za redirekciju
+     * @throws IOException ako redirekcija ne uspe
+     */
     @GetMapping("/success")
     public void callbackOAuth2(@AuthenticationPrincipal OAuth2User oAuth2User, HttpServletResponse response) throws IOException {
 

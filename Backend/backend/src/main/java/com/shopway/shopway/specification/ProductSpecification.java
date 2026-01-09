@@ -6,6 +6,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.UUID;
 
+/*
+    Product Specifications for dynamic queries
+ */
 public class ProductSpecification {
 
     public static Specification<Product> hasCategoryId(UUID categoryId){

@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.*;
 
+/*
+ * Servis za upravljanje narudžbinama i plaćanjima.
+ */
 @Service
 public class OrderService {
 
@@ -31,6 +34,22 @@ public class OrderService {
     @Autowired
     private PaymentIntentService paymentIntentService;
 
+    /*
+     * Kreira novu narudžbinu za korisnika.
+     *
+     * Proces:
+     * 1. Pronalazi korisnika preko Principal-a
+     * 2. Validira da li adresa pripada korisniku
+     * 3. Kreira Order entitet sa statusom PENDING
+     * 4. Za svaki proizvod u narudžbini kreira OrderItem
+     * 5. Kreira Payment objekat sa statusom PENDING
+     * 6. Ako je način plaćanja kartica, kreira Stripe PaymentIntent
+     *
+     * @param orderRequest DTO sa podacima narudžbine
+     * @param principal objekat sa informacijama o autentifikovanom korisniku
+     * @return OrderResponse sa ID-em narudžbine i Stripe credentials-ima (ako je kartica)
+     * @throws Exception ako adresa ne pripada korisniku ili proizvod ne postoji
+     */
     @Transactional
     public OrderResponse createOrder(OrderRequest orderRequest, Principal principal) throws Exception {
         User user = (User) userDetailsService.loadUserByUsername(principal.getName());
@@ -86,7 +105,21 @@ public class OrderService {
 
         return orderResponse;
     }
-
+    /*
+     * Ažurira status plaćanja nakon što Stripe potvrdi uspešno plaćanje.
+     *
+     * Proces:
+     * 1. Dohvata PaymentIntent iz Stripe-a
+     * 2. Proverava da li je plaćanje uspešno (status "succeeded")
+     * 3. Pronalazi narudžbinu preko orderId iz metadata
+     * 4. Ažurira Payment status na COMPLETED
+     * 5. Postavlja paymentMethod iz Stripe response-a
+     *
+     * @param paymentIntentId Stripe PaymentIntent ID
+     * @param status status plaćanja (trenutno se ne koristi, proverava se direkt iz Stripe-a)
+     * @return mapa sa orderId ključem
+     * @throws IllegalArgumentException ako plaćanje nije pronađeno ili nije uspešno
+     */
     public Map<String, String> updateStatus(String paymentIntentId, String status) {
 
         try{
@@ -112,6 +145,13 @@ public class OrderService {
         }
     }
 
+    /*
+     * Vraća sve narudžbine korisnika.
+     * Mapira Order entitete u OrderDetails DTO objekte sa svim detaljima.
+     *
+     * @param name email korisnika
+     * @return lista OrderDetails sa svim narudžbinama korisnika
+     */
     public List<OrderDetails> getOrdersByUser(String name) {
         User user = (User) userDetailsService.loadUserByUsername(name);
         List<Order> orders = orderRepository.findByUser(user);
@@ -129,6 +169,12 @@ public class OrderService {
         }).toList();
     }
 
+    /*
+     * Pomoćna metoda koja mapira OrderItem entitete u OrderItemDetails DTO objekte.
+     *
+     * @param orderItemList lista OrderItem entiteta
+     * @return lista OrderItemDetails DTO objekata
+     */
     private List<OrderItemDetails> getItemDetails(List<OrderItem> orderItemList) {
         return orderItemList.stream().map(orderItem -> {
             return OrderItemDetails.builder()
@@ -141,6 +187,17 @@ public class OrderService {
         }).toList();
 
     }
+    /*
+     * Otkazuje narudžbinu.
+     * Proverava da li narudžbina pripada korisniku pre otkazivanja.
+     * Postavlja status na CANCELLED.
+     *
+     * TODO: Implementirati logiku za refundiranje iznosa ako je plaćanje već izvršeno.
+     *
+     * @param id UUID narudžbine
+     * @param principal objekat sa informacijama o autentifikovanom korisniku
+     * @throws RuntimeException ako narudžbina ne pripada korisniku
+     */
     public void cancelOrder(UUID id, Principal principal) {
         User user = (User) userDetailsService.loadUserByUsername(principal.getName());
         Order order = orderRepository.findById(id).get();

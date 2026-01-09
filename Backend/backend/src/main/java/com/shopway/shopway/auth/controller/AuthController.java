@@ -19,7 +19,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-
+/*
+ * REST kontroler za autentifikaciju i registraciju korisnika.
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("/api/auth")
@@ -37,6 +39,13 @@ public class AuthController {
     @Autowired
     JWTTokenHelper jwtTokenHelper;
 
+    /*
+     * Endpoint za prijavu korisnika.
+     * Proverava kredencijale, validira da li je nalog verifikovan i generiše JWT token.
+     *
+     * @param loginRequest objekat sa username i password
+     * @return UserToken sa JWT tokenom ako je prijava uspešna, inače 401 Unauthorized
+     */
     @PostMapping("/login")
     public ResponseEntity<UserToken> login(@RequestBody LoginRequest loginRequest) {
         try{
@@ -60,13 +69,26 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    /*
+     * Endpoint za registraciju novog korisnika.
+     * Kreira novi nalog i šalje verifikacioni kod na email.
+     *
+     * @param request objekat sa podacima za registraciju (ime, prezime, email, lozinka, telefon)
+     * @return RegistrationResponse sa statusom registracije (uspešno ili greška)
+     */
     @PostMapping("/register")
     public ResponseEntity<RegistrationResponse> register (@RequestBody RegistrationRequest request) {
         RegistrationResponse registrationResponse = registrationService.createUser(request);
 
         return new ResponseEntity<>(registrationResponse,registrationResponse.getCode() == 200 ? HttpStatus.OK: HttpStatus.BAD_REQUEST);
     }
-
+    /*
+     * Endpoint za verifikaciju emaila korisnika pomoću koda poslatog na email.
+     * Ako je kod ispravan, aktivira korisnički nalog.
+     *
+     * @param map mapa sa "userName" i "code" ključevima
+     * @return 200 OK ako je verifikacija uspešna, 400 Bad Request ako kod nije ispravan
+     */
     @PostMapping("/verify")
     public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> map){
         String userName = map.get("userName");

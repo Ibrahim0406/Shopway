@@ -13,6 +13,11 @@ import software.amazon.awssdk.services.s3.S3Configuration;
 import javax.net.ssl.SSLContext;
 import java.net.URI;
 
+
+/*
+ * Konfiguraciona klasa za AWS S3 Client (koristi se za Bunny CDN storage).
+ * Kreira S3Client bean koji se koristi za upload fajlova na S3-kompatibilni storage.
+ */
 @Configuration
 public class S3Config {
 
@@ -25,6 +30,19 @@ public class S3Config {
     @Value("${FILE_HOST_URL}")
     private String endpoint;
 
+
+    /*
+     * Kreira i konfiguriše S3Client bean za komunikaciju sa S3-kompatibilnim storage-om.
+     *
+     * Konfiguracija:
+     * - endpointOverride:CustomURI za Bunny CDN (nije standardni AWS S3 endpoint)
+     * - credentials: Access key i secret key za autentifikaciju
+     * - region: AWS region (postavljen na "eu-west-1", ali se ne koristi za Bunny CDN)
+     * - pathStyleAccessEnabled: Omogućava path-style pristup (bucket-name/key umesto bucket-name.domain/key)
+     * - httpClient: Apache HTTP client za TLS podršku
+     *
+     * @return konfigurisani S3Client objekat
+     */
     @Bean
     public S3Client s3Client() {
         return S3Client.builder()

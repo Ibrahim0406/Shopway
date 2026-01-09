@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+
+/*
+ * REST kontroler za upravljanje kategorijama proizvoda.
+ */
 @RestController
 @RequestMapping("/api/category")
 @CrossOrigin(origins = "http://localhost:5137")
@@ -26,12 +30,25 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    /*
+     * Vraća pojedinačnu kategoriju po ID-u.
+     *
+     * @param categoryId UUID kategorije
+     * @return ResponseEntity sa Category objektom i HTTP statusom 200 OK
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable(value = "id", required = true) UUID categoryId){
         Category category = categoryService.getCategory(categoryId);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
+    /*
+     * Vraća sve kategorije iz baze.
+     * Dodaje Content-Range header za paginaciju (za React Admin).
+     *
+     * @param response HTTP response objekat za postavljanje headera
+     * @return ResponseEntity sa listom svih kategorija i HTTP statusom 200 OK
+     */
     @GetMapping
     public ResponseEntity<List<Category>> getAllCategories(HttpServletResponse response){
         List<Category> categoryList = categoryService.getAllCategories();
@@ -39,6 +56,13 @@ public class CategoryController {
         return new ResponseEntity<>(categoryList, HttpStatus.OK);
     }
 
+    /*
+     * Kreira novu kategoriju sa njenim tipovima (subcategorijama).
+     * Loguje primljene podatke za debugging.
+     *
+     * @param categoryDto DTO objekat sa podacima kategorije (code, name, description, categoryTypeList)
+     * @return ResponseEntity sa kreiranom Category i HTTP statusom 201 CREATED
+     */
     @PostMapping
     public ResponseEntity<Category> createCategory(@Valid @RequestBody CategoryDto categoryDto){
         logger.info("POST /api/category - Primljen CategoryDto: code={}, name={}, description={}",
@@ -58,6 +82,14 @@ public class CategoryController {
         return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
+    /*
+     * Ažurira postojeću kategoriju.
+     * Omogućava izmenu osnovnih podataka kategorije i dodavanje/izmenu njenih tipova.
+     *
+     * @param categoryDto DTO sa novim podacima
+     * @param categoryId UUID kategorije koja se ažurira
+     * @return ResponseEntity sa ažuriranom Category i HTTP statusom 200 OK
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable(value = "id", required = true) UUID categoryId){
         logger.info("PUT /api/category/{} - Primljen CategoryDto: code={}, name={}, description={}",
@@ -76,7 +108,12 @@ public class CategoryController {
         logger.info("Ažurirana kategorija sa ID: {}", updatedCategory.getId());
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
-
+    /*
+     * Briše kategoriju iz baze.
+     *
+     * @param categoryId UUID kategorije koja se briše
+     * @return ResponseEntity sa HTTP statusom 200 OK
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable(value = "id", required = true) UUID categoryId) {
         categoryService.deleteCategory(categoryId);

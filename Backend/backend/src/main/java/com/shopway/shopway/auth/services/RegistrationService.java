@@ -11,6 +11,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerErrorException;
 
+
+/*
+ * Servis za registraciju i verifikaciju korisnika.
+ */
 @Builder
 @Service
 public class RegistrationService {
@@ -27,6 +31,17 @@ public class RegistrationService {
     @Autowired
     private EmailService emailService;
 
+    /*
+     * Kreira novog korisnika u sistemu.
+     * Proverava da li email već postoji, generiše verifikacioni kod,
+     * hešira lozinku i šalje email sa verifikacionim kodom.
+     *
+     * @param request objekat sa podacima za registraciju (ime, prezime, email, lozinka, telefon)
+     * @return RegistrationResponse sa statusom:
+     *         - 200 i "User registered successfully" ako je uspešno
+     *         - 400 i "Email already exists" ako email već postoji
+     * @throws ServerErrorException ako dođe do greške prilikom čuvanja korisnika
+     */
     public RegistrationResponse createUser(RegistrationRequest request) {
 
         User existing = userDetailRepository.findByEmail(request.getEmail());
@@ -65,6 +80,12 @@ public class RegistrationService {
 
     }
 
+    /*
+     * Verifikuje korisnika postavljanjem enabled flaga na true.
+     * Poziva se nakon što korisnik unese ispravan verifikacioni kod.
+     *
+     * @param userName email korisnika koji se verifikuje
+     */
     public void verifyUser(String userName) {
         User user = userDetailRepository.findByEmail(userName);
         user.setEnabled(true);
